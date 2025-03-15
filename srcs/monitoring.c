@@ -53,7 +53,7 @@ void	*monitoring(t_data *data)
 		while (++i < data->nb_philo)
 		{
 			if (kill_philo(&data->philo[i]))
-			return (NULL);
+				return (NULL);
 		}
 		if (check_meals(data))
 			return (NULL);

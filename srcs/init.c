@@ -12,7 +12,9 @@ void	init_data(t_data *data, char **av)
 		data->nb_must_eat = 0;
 	data->is_dead = 0;
 	data->philo->has_eat = 0;
-	if (data->time_to_die > 6000 || data->time_to_eat > 6000 || data->time_to_sleep > 6000)
+	if (data->time_to_die > 6000
+		|| data->time_to_eat > 6000
+		|| data->time_to_sleep > 6000)
 		error_exit("Error: time must be less than 6000ms\n");
 	data->death = malloc(sizeof(pthread_mutex_t));
 	data->mutex = malloc(sizeof(pthread_mutex_t));
@@ -79,20 +81,21 @@ void	init_philo(t_data *data)
 	}
 	monitoring(data);
 }
-void free_all(t_data *data)
-{
-    int i;
 
-    i = 0;
-    while (i < data->nb_philo)
-    {
-        pthread_mutex_destroy(&data->fork[i]);
-        i++;
-    }
-    pthread_mutex_destroy(data->death);
-    pthread_mutex_destroy(data->mutex);
-    free(data->philo);
-    free(data->fork);
-    free(data->death);
-    free(data->mutex);
+void	free_all(t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_destroy(&data->fork[i]);
+		i++;
+	}
+	pthread_mutex_destroy(data->death);
+	pthread_mutex_destroy(data->mutex);
+	free(data->philo);
+	free(data->fork);
+	free(data->death);
+	free(data->mutex);
 }

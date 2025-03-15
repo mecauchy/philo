@@ -1,18 +1,11 @@
 #include "../include/philo.h"
 
-void	philo_die(t_philo *philo)
-{
-	pthread_mutex_lock(philo->data->death);
-	// printf("%dms\t : Philosopher %d is dead\n", get_time() - philo->data->start_time, philo->id);
-	printf("Philosopher %d is dead\n", 16);
-	philo->data->is_dead = 1;
-	pthread_mutex_unlock(philo->data->death);
-}
-
 int	kill_philo(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->mutex);
-	if (!philo->data->is_dead && get_time() - philo->last_eat >= philo->data->time_to_die)
+	if (!philo->data->is_dead
+		&& get_time() - philo->last_eat
+		>= philo->data->time_to_die)
 	{
 		philo->data->is_dead = 1;
 		pthread_mutex_unlock(philo->data->mutex);
@@ -23,32 +16,15 @@ int	kill_philo(t_philo *philo)
 	return (0);
 }
 
-// int	kill_philo(t_philo *philo)
-// {
-// 	pthread_mutex_lock(philo->data->death);
-// 	pthread_mutex_lock(philo->data->mutex);
-// 	if (get_time_since_start(philo) - philo->last_eat > philo->data->time_to_die)
-// 	{
-// 		// philo_die(philo);
-// 		philo->data->is_dead = 1;
-// 		pthread_mutex_unlock(philo->data->death);
-// 		pthread_mutex_unlock(philo->data->mutex);
-// 		return (1);
-// 	}
-// 	pthread_mutex_unlock(philo->data->death);
-// 	pthread_mutex_unlock(philo->data->mutex);
-// 	return (0);
-// }
+/*
+	- Check if the philosopher is dead
+	- if the philosopher is dead, return 1
+	- if the philosopher is not dead, return 0
 
+	locks and unlocks the mutex
+*/
 int	is_dead(t_philo *philo)
 {
-	/*
-		- Check if the philosopher is dead
-		- if the philosopher is dead, return 1
-		- if the philosopher is not dead, return 0
-
-		locks and unlocks the mutex
-	*/
 	pthread_mutex_lock(philo->data->death);
 	if (philo->data->is_dead == 1)
 	{
@@ -88,7 +64,7 @@ int	main(int ac, char **av)
 	check_args(av);
 	init_data(&data, av);
 	if (atoi(av[1]) == 1)
-		return(one_philo(&data));
+		return (one_philo(&data));
 	init_fork(&data);
 	init_philo(&data);
 	join_thread(&data);

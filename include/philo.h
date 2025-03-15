@@ -1,6 +1,6 @@
 #ifndef PHILO_H
 
-#define PHILO_H
+# define PHILO_H
 
 # include <stdio.h>
 # include <stdlib.h>
@@ -56,7 +56,6 @@ void	ft_usleep(int time);
 void	error_exit(char *message);
 int		check_meals(t_data *data);
 int		kill_philo(t_philo *philo);
-void	philo_die(t_philo *philo);
 void	join_thread(t_data *data);
 void	*monitoring(t_data *data);
 void	free_all(t_data *data);

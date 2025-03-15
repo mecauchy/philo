@@ -1,4 +1,4 @@
-SRCS	=	./srcs/action.c ./srcs/init.c ./srcs/monitoring.c ./srcs/routine.c ./srcs/utils.c ./srcs/check.c ./srcs/main.c
+SRCS	=	./srcs/action.c ./srcs/init.c ./srcs/monitoring.c ./srcs/utils.c ./srcs/check.c ./srcs/main.c
 
 HEADER	=	include/philo.h
 

@@ -85,6 +85,7 @@ int	main(int ac, char **av)
 		printf("Error: wrong number of arguments\n");
 		return (1);
 	}
+	check_args(av);
 	init_data(&data, av);
 	if (atoi(av[1]) == 1)
 		return(one_philo(&data));

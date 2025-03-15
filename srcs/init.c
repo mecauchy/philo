@@ -2,7 +2,6 @@
 
 void	init_data(t_data *data, char **av)
 {
-	printf("hre002");
 	data->nb_philo = atoi(av[1]);
 	data->time_to_die = atoi(av[2]);
 	data->time_to_eat = atoi(av[3]);
@@ -10,13 +9,17 @@ void	init_data(t_data *data, char **av)
 	if (av[5])
 		data->nb_must_eat = atoi(av[5]);
 	else
-		data->nb_must_eat = -1;
+		data->nb_must_eat = 0;
 	data->is_dead = 0;
 	data->philo->has_eat = 0;
 	if (data->time_to_die > 6000 || data->time_to_eat > 6000 || data->time_to_sleep > 6000)
 		error_exit("Error: time must be less than 6000ms\n");
-	data->death = 0;
+	data->death = malloc(sizeof(pthread_mutex_t));
+	data->mutex = malloc(sizeof(pthread_mutex_t));
+	data->message = malloc(sizeof(pthread_mutex_t));
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
+	if (!data->death || !data->message || !data->mutex || !data->fork)
+		error_exit("malloc failed for mutexes");
 }
 
 void	init_fork(t_data *data)
@@ -65,8 +68,10 @@ void	init_philo(t_data *data)
 	{
 		data->philo[i].id = i + 1;
 		data->philo[i].nb_eat = 0;
+		data->philo[i].has_eat = 0;
 		data->philo[i].data = data;
 		data->philo[i].meals = 0;
+		data->philo[i].last_eat = data->start_time;
 		assign_fork(data, i);
 		if (pthread_create(&data->philo[i].thread, NULL,
 				&routine, &data->philo[i]))

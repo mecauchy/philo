@@ -54,10 +54,12 @@ int		get_time(void);
 int		get_time_since_start(t_philo *philo);
 void	ft_usleep(int time);
 void	error_exit(char *message);
-void	*check_meals(t_data *data, int i);
+// void	*check_meals(t_data *data, int i);
+int		check_meals(t_data *data);
 int		kill_philo(t_philo *philo);
 void	philo_die(t_philo *philo);
 void	join_thread(t_data *data);
 void	*monitoring(t_data *data);
+void	free_all(t_data *data);
 
 #endif

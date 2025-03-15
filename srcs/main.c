@@ -3,27 +3,42 @@
 void	philo_die(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->death);
-	printf("%dms\t : Philosopher %d is dead\n", get_time() - philo->data->start_time, philo->id);
-	// printf("Philosopher %d is dead\n", 16);
+	// printf("%dms\t : Philosopher %d is dead\n", get_time() - philo->data->start_time, philo->id);
+	printf("Philosopher %d is dead\n", 16);
 	philo->data->is_dead = 1;
 	pthread_mutex_unlock(philo->data->death);
 }
 
 int	kill_philo(t_philo *philo)
 {
-	pthread_mutex_lock(philo->data->death);
 	pthread_mutex_lock(philo->data->mutex);
-	if (philo->data->is_dead == 1 || get_time_since_start(philo) - philo->last_eat > philo->data->time_to_die)
+	if (!philo->data->is_dead && get_time() - philo->last_eat >= philo->data->time_to_die)
 	{
-		philo_die(philo);
-		pthread_mutex_unlock(philo->data->death);
+		philo->data->is_dead = 1;
 		pthread_mutex_unlock(philo->data->mutex);
+		mutex_message("is dead", philo);
 		return (1);
 	}
-	pthread_mutex_unlock(philo->data->death);
 	pthread_mutex_unlock(philo->data->mutex);
 	return (0);
 }
+
+// int	kill_philo(t_philo *philo)
+// {
+// 	pthread_mutex_lock(philo->data->death);
+// 	pthread_mutex_lock(philo->data->mutex);
+// 	if (get_time_since_start(philo) - philo->last_eat > philo->data->time_to_die)
+// 	{
+// 		// philo_die(philo);
+// 		philo->data->is_dead = 1;
+// 		pthread_mutex_unlock(philo->data->death);
+// 		pthread_mutex_unlock(philo->data->mutex);
+// 		return (1);
+// 	}
+// 	pthread_mutex_unlock(philo->data->death);
+// 	pthread_mutex_unlock(philo->data->mutex);
+// 	return (0);
+// }
 
 int	is_dead(t_philo *philo)
 {
@@ -46,7 +61,7 @@ int	is_dead(t_philo *philo)
 
 int	one_philo(t_data *data)
 {
-	printf("0 1 has taken a fork\n");
+	printf("Philosopher 1 has taken a fork\n");
 	ft_usleep(data->time_to_die);
 	printf("Philosopher 1 is dead after %dms\n", data->time_to_die);
 	return (0);
@@ -76,5 +91,6 @@ int	main(int ac, char **av)
 	init_fork(&data);
 	init_philo(&data);
 	join_thread(&data);
+	free_all(&data);
 	return (0);
 }

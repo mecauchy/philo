@@ -1,37 +1,63 @@
 #include "../include/philo.h"
 
-void	*check_meals(t_data *data, int i)
+int	check_meals(t_data *data)
 {
-	pthread_mutex_lock(data->philo[i].data->mutex);
-	if (data->philo[i].meals >= data->nb_must_eat && data->nb_must_eat > 0)
+	int	nb_meals;
+	int	i;
+
+	if (data->nb_must_eat <= 0)
+		return (0);
+	nb_meals = 0;
+	i = -1;
+	while (++i < data->nb_philo)
 	{
-		data->philo->has_eat++;
-		if (data->philo->has_eat == data->nb_philo)
-		{
-			data->is_dead = 1;
-			pthread_mutex_unlock(data->philo[i].data->mutex);
-			return (NULL);
-		}
+		pthread_mutex_lock(data->philo[i].data->mutex);
+		if (data->philo[i].meals >= data->nb_must_eat)
+			nb_meals++;
+		pthread_mutex_unlock(data->philo[i].data->mutex);
 	}
-	pthread_mutex_unlock(data->philo[i].data->mutex);
-	return (&data->philo[i]);
+	if (nb_meals == data->nb_philo)
+	{
+		pthread_mutex_lock(data->death);
+		data->is_dead = 1;
+		pthread_mutex_unlock(data->death);
+		return (1);
+	}
+	return (0);
 }
+
+// void	*check_meals(t_data *data, int i)
+// {
+// 	pthread_mutex_lock(data->philo[i].data->mutex);
+// 	if (data->philo[i].meals >= data->nb_must_eat && data->nb_must_eat > 0)
+// 	{
+// 		data->philo[i].has_eat++;
+// 		if (data->philo->has_eat == data->nb_philo)
+// 		{
+// 			data->is_dead = 1;
+// 			pthread_mutex_unlock(data->philo[i].data->mutex);
+// 			return (NULL);
+// 		}
+// 	}
+// 	pthread_mutex_unlock(data->philo[i].data->mutex);
+// 	return (&data->philo[i]);
+// }
 
 void	*monitoring(t_data *data)
 {
 	int	i;
 
-	i = 0;
-	while (1)
+	while (!data->is_dead)
 	{
-		i = 0;
-		while (i < data->nb_philo)
+		i = -1;
+		while (++i < data->nb_philo)
 		{
-			if (!check_meals(data, i))
-				return (NULL);
 			if (kill_philo(&data->philo[i]))
-				return (NULL);
-			}
-			usleep(400);
+			return (NULL);
 		}
+		if (check_meals(data))
+			return (NULL);
+		usleep(100);
 	}
+	return (NULL);
+}

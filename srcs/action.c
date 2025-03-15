@@ -50,7 +50,6 @@ void	take_fork(t_philo *philo)
 	pthread_mutex_lock((pthread_mutex_t *)((!(philo->id % 2) * (long long int)philo->left_fork) + ((philo->id %2 != 0) * (long long int)philo->right_fork)));
 	mutex_message("has taken a fork", philo);
 	philo_eat(philo);
-
 }
 
 /**

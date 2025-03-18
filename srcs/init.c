@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:31 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:30:37 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:14:26 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	init_data(t_data *data, char **av)
 	else
 		data->nb_must_eat = 0;
 	data->is_dead = 0;
-	// data->philo->has_eat = 0;
 	if (data->time_to_die > 6000
 		|| data->time_to_eat > 6000
 		|| data->time_to_sleep > 6000)
@@ -82,8 +81,6 @@ void	init_philo(t_data *data)
 	while (++i < data->nb_philo)
 	{
 		data->philo[i].id = i + 1;
-		data->philo[i].nb_eat = 0;
-		data->philo[i].has_eat = 0;
 		data->philo[i].data = data;
 		data->philo[i].meals = 0;
 		data->philo[i].last_eat = data->start_time;

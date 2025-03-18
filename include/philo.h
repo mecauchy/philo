@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:58 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:35:33 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:10:46 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ typedef struct s_philo
 	int				id;
 	int				meals;
 	int				last_eat;
-	int				has_eat;
-	int				nb_eat;
 	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
@@ -50,12 +48,18 @@ typedef struct s_data
 	pthread_mutex_t	*mutex;
 }				t_data;
 
+
+// ---------------------------------------------------------------------------
+//					INITIALIZATION
+// ---------------------------------------------------------------------------
+void	init_data(t_data *data, char **av);
+
+
 int		one_philo(t_data *data, char **av);
 int		is_dead(t_philo *philo);
 void	init_philo(t_data *data);
 void	*routine(void *philo);
 void	init_fork(t_data *data);
-void	init_data(t_data *data, char **av);
 void	philo_think(t_philo *philo);
 void	philo_sleep(t_philo *philo);
 void	take_fork(t_philo *philo);

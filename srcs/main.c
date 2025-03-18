@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:35 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:36:04 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/18 18:08:04 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ int	one_philo(t_data *data, char **av)
 	data->time_to_die = atoi(av[2]);
 	if (data->time_to_die > 6000)
 		error_exit("Error: time must be less than 6000ms\n");
-	printf("Philosopher 1 has taken a fork\n");
+	printf("0 1 has taken a fork\n");
 	ft_usleep(data->time_to_die);
-	printf("Philosopher 1 is dead after %dms\n", data->time_to_die);
+	printf("%d 1 is dead\n", data->time_to_die);
 	return (0);
 }
 

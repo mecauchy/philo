@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:09:41 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:13:22 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/18 15:02:39 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void	philo_eat(t_philo *philo)
 	mutex_message("is eating", philo);
 	usleep(philo->data->time_to_eat * 1000);
 	philo->meals++;
-	// philo->nb_eat++;
 	pthread_mutex_unlock(philo->left_fork);
 	pthread_mutex_unlock(philo->right_fork);
 }

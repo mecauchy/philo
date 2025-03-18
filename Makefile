@@ -6,11 +6,12 @@
 #    By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 11:08:14 by mcauchy-          #+#    #+#              #
-#    Updated: 2025/03/18 11:31:40 by mcauchy-         ###   ########.fr        #
+#    Updated: 2025/03/18 16:01:55 by mcauchy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-SRCS	=	./srcs/action.c ./srcs/init.c ./srcs/monitoring.c ./srcs/utils.c ./srcs/check.c ./srcs/main.c
+SRCS	=	./srcs/action.c ./srcs/init.c ./srcs/monitoring.c ./srcs/utils.c \
+			./srcs/check.c ./srcs/main.c
 
 HEADER	=	include/philo.h
 

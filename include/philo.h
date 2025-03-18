@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   philo.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 11:10:58 by mcauchy-          #+#    #+#             */
+/*   Updated: 2025/03/18 13:35:33 by mcauchy-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef PHILO_H
 
 # define PHILO_H
@@ -38,7 +50,7 @@ typedef struct s_data
 	pthread_mutex_t	*mutex;
 }				t_data;
 
-int		one_philo(t_data *data);
+int		one_philo(t_data *data, char **av);
 int		is_dead(t_philo *philo);
 void	init_philo(t_data *data);
 void	*routine(void *philo);

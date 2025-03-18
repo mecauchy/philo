@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   init.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 11:10:31 by mcauchy-          #+#    #+#             */
+/*   Updated: 2025/03/18 13:30:37 by mcauchy-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 void	init_data(t_data *data, char **av)
@@ -11,7 +23,7 @@ void	init_data(t_data *data, char **av)
 	else
 		data->nb_must_eat = 0;
 	data->is_dead = 0;
-	data->philo->has_eat = 0;
+	// data->philo->has_eat = 0;
 	if (data->time_to_die > 6000
 		|| data->time_to_eat > 6000
 		|| data->time_to_sleep > 6000)
@@ -19,6 +31,7 @@ void	init_data(t_data *data, char **av)
 	data->death = malloc(sizeof(pthread_mutex_t));
 	data->mutex = malloc(sizeof(pthread_mutex_t));
 	data->message = malloc(sizeof(pthread_mutex_t));
+	// verify if malloc failed message
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->death || !data->message || !data->mutex || !data->fork)
 		error_exit("malloc failed for mutexes");
@@ -94,8 +107,11 @@ void	free_all(t_data *data)
 	}
 	pthread_mutex_destroy(data->death);
 	pthread_mutex_destroy(data->mutex);
+	pthread_mutex_destroy(data->message);
+	pthread_mutex_destroy(data->fork);
 	free(data->philo);
 	free(data->fork);
 	free(data->death);
 	free(data->mutex);
+	free(data->message);
 }

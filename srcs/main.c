@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/03/18 11:10:35 by mcauchy-          #+#    #+#             */
+/*   Updated: 2025/03/18 13:36:04 by mcauchy-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/philo.h"
 
 int	kill_philo(t_philo *philo)
@@ -16,13 +28,6 @@ int	kill_philo(t_philo *philo)
 	return (0);
 }
 
-/*
-	- Check if the philosopher is dead
-	- if the philosopher is dead, return 1
-	- if the philosopher is not dead, return 0
-
-	locks and unlocks the mutex
-*/
 int	is_dead(t_philo *philo)
 {
 	pthread_mutex_lock(philo->data->death);
@@ -35,8 +40,11 @@ int	is_dead(t_philo *philo)
 	return (0);
 }
 
-int	one_philo(t_data *data)
+int	one_philo(t_data *data, char **av)
 {
+	data->time_to_die = atoi(av[2]);
+	if (data->time_to_die > 6000)
+		error_exit("Error: time must be less than 6000ms\n");
 	printf("Philosopher 1 has taken a fork\n");
 	ft_usleep(data->time_to_die);
 	printf("Philosopher 1 is dead after %dms\n", data->time_to_die);
@@ -62,9 +70,9 @@ int	main(int ac, char **av)
 		return (1);
 	}
 	check_args(av);
-	init_data(&data, av);
 	if (atoi(av[1]) == 1)
-		return (one_philo(&data));
+		return (one_philo(&data, av));
+	init_data(&data, av);
 	init_fork(&data);
 	init_philo(&data);
 	join_thread(&data);

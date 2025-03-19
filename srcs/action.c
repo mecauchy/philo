@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:09:41 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:29:40 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:42:59 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	philo_sleep(t_philo *philo)
 	if (is_dead(philo))
 		return ;
 	mutex_message("is sleeping", philo);
-	ft_usleep(philo->data->time_to_sleep * 1000);
+	usleep(philo->data->time_to_sleep * 1000);
 }
 
 void	philo_think(t_philo *philo)
@@ -71,5 +71,5 @@ void	philo_think(t_philo *philo)
 	if (is_dead(philo))
 		return ;
 	mutex_message("is thinking", philo);
-	ft_usleep(200);
+	usleep(200);
 }

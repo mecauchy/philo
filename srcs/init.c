@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:31 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:00:36 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:48:47 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ void	init_data(t_data *data, char **av)
 	data->death = malloc(sizeof(pthread_mutex_t));
 	data->mutex = malloc(sizeof(pthread_mutex_t));
 	data->message = malloc(sizeof(pthread_mutex_t));
-	// verify if malloc failed message
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->death || !data->message || !data->mutex || !data->fork)
 	{
@@ -99,16 +98,10 @@ void	init_philo(t_data *data)
 	{
 		int	i;
 
-		i = -1;
-		while (++i < data->nb_philo)
-		{
-			printf("Philo: %d | Nb_eats: %d\n", data->nb_philo, data->philo[i].meals);
-		}
 		i = 0;
 		while (i < data->nb_philo)
 		{
 			pthread_mutex_destroy(&data->fork[i]);
-			// free(&data->fork[i]);
 			i++;
 		}
 		pthread_mutex_destroy(data->death);

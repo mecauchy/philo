@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:46 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 13:13:53 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:26:08 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ int	check_meals(t_data *data)
 		if (data->philo[i].meals < data->nb_must_eat)
 		{
 			index = 0;
-			// printf("philo[%d].meals = %d\n", i, data->philo[i].meals);
 			pthread_mutex_unlock(data->philo[i].data->mutex);
 			break ;
 		}
@@ -84,7 +83,7 @@ void	*monitoring(t_data *data)
 {
 	int	i;
 
-	while (!data->is_dead)
+	while (1)
 	{
 		i = -1;
 		while (++i < data->nb_philo)

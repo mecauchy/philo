@@ -6,7 +6,7 @@
 #    By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/03/18 11:08:14 by mcauchy-          #+#    #+#              #
-#    Updated: 2025/03/18 16:01:55 by mcauchy-         ###   ########.fr        #
+#    Updated: 2025/03/19 16:44:21 by mcauchy-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,22 +17,30 @@ HEADER	=	include/philo.h
 
 NAME	=	philo
 
-OBJS	=	$(SRCS:.c=.o)
+OBJS = $(patsubst ./srcs/%.c,$(OBJS_DIR)%.o,$(SRCS))
 
-CC		=	cc
+OBJS_DIR	=	objs/
+
+CC		=	gcc
 
 CFLAGS	=	-Wall -Wextra -Werror -g3
 
-$(NAME)	:	$(OBJS) $(HEADER)
-			$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+THREADFLAG	=	-pthread
+
+$(NAME)	:	$(OBJS_DIR) $(OBJS)
+			$(CC) $(CFLAGS) -I include $(OBJS) -o $(NAME)
 			@echo "Compilation done"
+
+$(OBJS_DIR)	:
+				mkdir -p $(OBJS_DIR)
+
+$(OBJS_DIR)%.o	:	./srcs/%.c
+	$(CC) $(CFLAGS) $(THREADFLAG) -I ./include -c $< -o $@
 
 all		:	$(NAME)
 
-%.c		:	%.o
-
 clean	:
-			rm -rf $(OBJS)
+			rm -rf $(OBJS_DIR)
 			@echo "Objects deleted"
 
 fclean	:	clean

@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:31 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 18:14:26 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/19 17:00:36 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@ void	init_data(t_data *data, char **av)
 	// verify if malloc failed message
 	data->fork = malloc(sizeof(pthread_mutex_t) * data->nb_philo);
 	if (!data->death || !data->message || !data->mutex || !data->fork)
+	{
+		free_all(data);
 		error_exit("malloc failed for mutexes");
+	}
 }
 
 void	init_fork(t_data *data)
@@ -92,23 +95,33 @@ void	init_philo(t_data *data)
 	monitoring(data);
 }
 
-void	free_all(t_data *data)
-{
-	int	i;
-
-	i = 0;
-	while (i < data->nb_philo)
+	void	free_all(t_data *data)
 	{
-		pthread_mutex_destroy(&data->fork[i]);
-		i++;
+		int	i;
+
+		i = -1;
+		while (++i < data->nb_philo)
+		{
+			printf("Philo: %d | Nb_eats: %d\n", data->nb_philo, data->philo[i].meals);
+		}
+		i = 0;
+		while (i < data->nb_philo)
+		{
+			pthread_mutex_destroy(&data->fork[i]);
+			// free(&data->fork[i]);
+			i++;
+		}
+		pthread_mutex_destroy(data->death);
+		pthread_mutex_destroy(data->mutex);
+		pthread_mutex_destroy(data->message);
+		if (data->philo)
+			free(data->philo);
+		if (data->fork)
+			free(data->fork);
+		if (data->death)
+			free(data->death);
+		if (data->mutex)
+			free(data->mutex);
+		if (data->message)
+			free(data->message);
 	}
-	pthread_mutex_destroy(data->death);
-	pthread_mutex_destroy(data->mutex);
-	pthread_mutex_destroy(data->message);
-	pthread_mutex_destroy(data->fork);
-	free(data->philo);
-	free(data->fork);
-	free(data->death);
-	free(data->mutex);
-	free(data->message);
-}

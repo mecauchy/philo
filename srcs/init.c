@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:31 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:48:47 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:26:22 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ void	init_data(t_data *data, char **av)
 	else
 		data->nb_must_eat = 0;
 	data->is_dead = 0;
-	if (data->time_to_die > 6000
-		|| data->time_to_eat > 6000
-		|| data->time_to_sleep > 6000)
-		error_exit("Error: time must be less than 6000ms\n");
 	data->death = malloc(sizeof(pthread_mutex_t));
 	data->mutex = malloc(sizeof(pthread_mutex_t));
 	data->message = malloc(sizeof(pthread_mutex_t));
@@ -52,25 +48,6 @@ void	init_fork(t_data *data)
 	}
 }
 
-void	*routine(void *philo)
-{
-	t_philo	*ph;
-
-	ph = (t_philo *)philo;
-	while (!is_dead(ph))
-	{
-		take_fork(ph);
-		if (is_dead(ph))
-			return (NULL);
-		philo_sleep(ph);
-		if (is_dead(ph))
-			return (NULL);
-		philo_think(ph);
-		usleep(200);
-	}
-	return (NULL);
-}
-
 void	init_philo(t_data *data)
 {
 	int	i;
@@ -94,27 +71,27 @@ void	init_philo(t_data *data)
 	monitoring(data);
 }
 
-	void	free_all(t_data *data)
-	{
-		int	i;
+void	free_all(t_data *data)
+{
+	int	i;
 
-		i = 0;
-		while (i < data->nb_philo)
-		{
-			pthread_mutex_destroy(&data->fork[i]);
-			i++;
-		}
-		pthread_mutex_destroy(data->death);
-		pthread_mutex_destroy(data->mutex);
-		pthread_mutex_destroy(data->message);
-		if (data->philo)
-			free(data->philo);
-		if (data->fork)
-			free(data->fork);
-		if (data->death)
-			free(data->death);
-		if (data->mutex)
-			free(data->mutex);
-		if (data->message)
-			free(data->message);
+	i = 0;
+	while (i < data->nb_philo)
+	{
+		pthread_mutex_destroy(&data->fork[i]);
+		i++;
 	}
+	pthread_mutex_destroy(data->death);
+	pthread_mutex_destroy(data->mutex);
+	pthread_mutex_destroy(data->message);
+	if (data->philo)
+		free(data->philo);
+	if (data->fork)
+		free(data->fork);
+	if (data->death)
+		free(data->death);
+	if (data->mutex)
+		free(data->mutex);
+	if (data->message)
+		free(data->message);
+}

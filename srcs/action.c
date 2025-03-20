@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:09:41 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:42:59 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:29:35 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,16 @@ void	philo_eat(t_philo *philo)
 	pthread_mutex_lock(philo->data->mutex);
 	philo->last_eat = get_time();
 	pthread_mutex_unlock(philo->data->mutex);
-	mutex_message("is eating", philo);
-	usleep(philo->data->time_to_eat * 1000);
+	if (philo->data->time_to_eat > philo->data->time_to_die)
+	{
+		mutex_message("is eating", philo);
+		usleep(philo->data->time_to_die * 1000);
+	}
+	else
+	{
+		mutex_message("is eating", philo);
+		usleep(philo->data->time_to_eat * 1000);
+	}
 	pthread_mutex_lock(philo->data->mutex);
 	philo->meals++;
 	pthread_mutex_unlock(philo->data->mutex);
@@ -60,10 +68,19 @@ void	take_fork(t_philo *philo)
 
 void	philo_sleep(t_philo *philo)
 {
-	if (is_dead(philo))
-		return ;
-	mutex_message("is sleeping", philo);
-	usleep(philo->data->time_to_sleep * 1000);
+	if (!is_dead(philo))
+	{
+		if (philo->data->time_to_sleep > philo->data->time_to_die)
+		{
+			mutex_message("is sleeping", philo);
+			usleep(philo->data->time_to_die * 1000);
+		}
+		else
+		{
+			mutex_message("is sleeping", philo);
+			usleep(philo->data->time_to_sleep * 1000);
+		}
+	}
 }
 
 void	philo_think(t_philo *philo)

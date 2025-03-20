@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:35 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:33:43 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:26:28 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	kill_philo(t_philo *philo)
 	pthread_mutex_lock(philo->data->mutex);
 	if (!philo->data->is_dead
 		&& get_time() - philo->last_eat
-		>= philo->data->time_to_die) // + 1 ou + 2 si aucue solution trouve quand ils sont cense clams // > philo->data... + 1
+		>= philo->data->time_to_die)
 	{
 		philo->data->is_dead = 1;
 		pthread_mutex_unlock(philo->data->death);
@@ -46,8 +46,6 @@ int	is_dead(t_philo *philo)
 int	one_philo(t_data *data, char **av)
 {
 	data->time_to_die = atoi(av[2]);
-	if (data->time_to_die > 6000)
-		error_exit("Error: time must be less than 6000ms\n");
 	printf("0 1 has taken a fork\n");
 	ft_usleep(data->time_to_die);
 	printf("%d 1 died", data->time_to_die);

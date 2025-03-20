@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:58 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/18 15:10:46 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:17:38 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,36 +48,54 @@ typedef struct s_data
 	pthread_mutex_t	*mutex;
 }				t_data;
 
-
 // ---------------------------------------------------------------------------
 //					INITIALIZATION
 // ---------------------------------------------------------------------------
 void	init_data(t_data *data, char **av);
-
-
-int		one_philo(t_data *data, char **av);
-int		is_dead(t_philo *philo);
 void	init_philo(t_data *data);
-void	*routine(void *philo);
 void	init_fork(t_data *data);
+void	assign_fork(t_data *data, int i);
+
+// ---------------------------------------------------------------------------
+//					PARSING
+// ---------------------------------------------------------------------------
+int		check_digit(char **av);
+int		check_time(char **av);
+int		check_nb_philo(char **av);
+int		nb_must_eat(char **av);
+void	check_args(char **av);
+
+// ---------------------------------------------------------------------------
+//					ACTION PHILO
+// ---------------------------------------------------------------------------
+void	*routine(void *philo);
 void	philo_think(t_philo *philo);
 void	philo_sleep(t_philo *philo);
-void	take_fork(t_philo *philo);
-void	assign_fork(t_data *data, int i);
 void	philo_eat(t_philo *philo);
+void	take_fork(t_philo *philo);
+int		is_dead(t_philo *philo);
+int		kill_philo(t_philo *philo);
+int		check_meals(t_data *data);
+
+// ---------------------------------------------------------------------------
+//					SYNCHRONISATION
+// ---------------------------------------------------------------------------
 void	mutex_message(char *message, t_philo *philo);
+void	join_thread(t_data *data);
+void	*monitoring(t_data *data);
+
+// ---------------------------------------------------------------------------
+//					UTILS
+// ---------------------------------------------------------------------------
 int		get_time(void);
 int		get_time_since_start(t_philo *philo);
 void	ft_usleep(int time);
 void	error_exit(char *message);
-int		check_meals(t_data *data);
-int		kill_philo(t_philo *philo);
-void	join_thread(t_data *data);
-void	*monitoring(t_data *data);
 void	free_all(t_data *data);
-int		check_digit(char **av);
-int		check_time(char **av);
-int		check_nb_philo(char **av);
-void	check_args(char **av);
+
+// ---------------------------------------------------------------------------
+//					ONE
+// ---------------------------------------------------------------------------
+int		one_philo(t_data *data, char **av);
 
 #endif

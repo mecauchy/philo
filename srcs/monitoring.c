@@ -6,7 +6,7 @@
 /*   By: mcauchy- <mcauchy-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/18 11:10:46 by mcauchy-          #+#    #+#             */
-/*   Updated: 2025/03/19 17:26:08 by mcauchy-         ###   ########.fr       */
+/*   Updated: 2025/03/20 13:22:16 by mcauchy-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,49 +35,24 @@ int	check_meals(t_data *data)
 	return (index);
 }
 
-// int	check_meals(t_data *data)
-// {
-// 	int	nb_meals;
-// 	int	i;
+void	*routine(void *philo)
+{
+	t_philo	*ph;
 
-// 	if (data->nb_must_eat <= 0)
-// 		return (0);
-// 	nb_meals = 0;
-// 	i = -1;
-// 	while (++i < data->nb_philo)
-// 	{
-// 		pthread_mutex_lock(data->philo[i].data->mutex);
-// 		if (data->philo[i].meals >= data->nb_must_eat)
-// 			nb_meals++;
-// 		pthread_mutex_unlock(data->philo[i].data->mutex);
-// 	}
-// 	if (nb_meals == data->nb_philo)
-// 	{
-// 		pthread_mutex_lock(data->death);
-// 		data->is_dead = 1;
-// 		pthread_mutex_unlock(data->death);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
-
-
-// int	check_meals(t_data *data)
-// {
-// 	pthread_mutex_lock(data->philo[i].data->mutex);
-// 	if (data->philo[i].meals >= data->nb_must_eat && data->nb_must_eat > 0)
-// 	{
-// 		data->philo[i].has_eat++;
-// 		if (data->philo->has_eat == data->nb_philo)
-// 		{
-// 			data->is_dead = 1;
-// 			pthread_mutex_unlock(data->philo[i].data->mutex);
-// 			return (1);
-// 		}
-// 	}
-// 	pthread_mutex_unlock(data->philo[i].data->mutex);
-// 	return (0);
-// }
+	ph = (t_philo *)philo;
+	while (!is_dead(ph))
+	{
+		take_fork(ph);
+		if (is_dead(ph))
+			return (NULL);
+		philo_sleep(ph);
+		if (is_dead(ph))
+			return (NULL);
+		philo_think(ph);
+		usleep(200);
+	}
+	return (NULL);
+}
 
 void	*monitoring(t_data *data)
 {
